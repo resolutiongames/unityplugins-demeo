@@ -49,6 +49,16 @@ namespace Apple.Core
 
             if (defaultProfile is null)
             {
+                // ---------------------------------------------------------------------------------------------
+                // This code was added due to PreBuild step in Demeo CI 
+                // where AssetDatabase is not being able to LoadMainAssetAtPath even though file exists.
+                if(Application.isBatchMode) 
+                {
+                    Debug.LogError("[AppleBuildProfile] Recreating the AppleBuildProfile in the batch mode shouldn't happen. File needs to exist at this point.");
+                    return null;
+                }
+                // ---------------------------------------------------------------------------------------------
+
                 Debug.Log("[AppleBuildProfile] Creating Apple Unity Plug-Ins build setting asset.");
                 defaultProfile = CreateInstance<AppleBuildProfile>();
 
